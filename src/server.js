@@ -6,14 +6,21 @@ extended: true,
 }),
 )
 app.use(express.json())
+let users = [];
 app.get('/', (req, res)=>{
-res.send("bem vindo");
+res.json({"message":"olá, seja bem vindo",
+    "user": "você é o julio"}
+);
 })
-app.get('/users', (req , res)=>{
-res.send("esses sao usuarios");
-
+app.post("/users", (req, res)=>{
+const user = req.body;
+users.push(user);
+res.json(user);
+})
+app.get("/users", (req,res)=>{
+res.json(users);
 })
 app.get('/products', (req, res)=>{
-res.send("esses sao produtos");
+res.json({"message":"esses sao produtos"});
 })
 app.listen(3000);
