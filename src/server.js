@@ -7,20 +7,12 @@ extended: true,
 )
 app.use(express.json())
 let users = [];
-app.get('/', (req, res)=>{
-res.json({"message":"olá, seja bem vindo",
-    "user": "você é o julio"}
-);
-})
-app.post("/users", (req, res)=>{
-const user = req.body;
+app.post("/users/:name/:id", (req, res)=>{
+const user =req.params;
 users.push(user);
-res.json(user);
+res.json({"message":"usuario feito"})
 })
-app.get("/users", (req,res)=>{
+app.get("/users" , (req,res)=>{
 res.json(users);
-})
-app.get('/products', (req, res)=>{
-res.json({"message":"esses sao produtos"});
 })
 app.listen(3000);
