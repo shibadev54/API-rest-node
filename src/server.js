@@ -44,4 +44,16 @@ return res.status(200).json({"message":"user edited!"}) ;
 else{
     return res.status(422).json({"error":"this user don't exist"});}
 })
+app.patch("/users/:id", (req, res)=>{                                //patch
+const id = Number(req.params.id);
+const indexUser =users.findIndex(user => user.id === id);
+const body = req.body;
+if(indexUser !== -1){
+users[indexUser] ={...users[indexUser], ...body, id}
+return res.status(200).json({"message":"user edited!"}) ;
+}
+else{
+return res.status(422).json({"error":"this user don't exist"})
+}
+})
 app.listen(3000);
