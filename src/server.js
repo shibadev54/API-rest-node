@@ -62,4 +62,15 @@ users.length = 0;
 }
 res.status(200).json({"message":"all users are deleted!"});
 })
+app.delete("/users/:id", (req, res)=>{                         //delete one
+const id = Number(req.params.id);
+const indexUser = users.findIndex(user => user.id === id);
+if(indexUser !== -1){
+users.splice(indexUser, 1);
+return res.status(200).json({"message": "deleted this user"});
+}
+else{
+    return res.status(422).json({"error": "this user don't exist"});
+}
+})
 app.listen(3000);
