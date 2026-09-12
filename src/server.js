@@ -56,4 +56,10 @@ else{
 return res.status(422).json({"error":"this user don't exist"})
 }
 })
+app.delete("/users", (req, res)=>{                               //delete all
+if(users.length >0){
+users.length = 0;
+}
+res.status(200).json({"message":"all users are deleted!"});
+})
 app.listen(3000);
