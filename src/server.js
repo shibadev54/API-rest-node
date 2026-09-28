@@ -1,76 +1,41 @@
 const express = require("express"); //express
+const mysql = require("mysql2/promise");
+require("dotenv").config();
 const app= express();
+const pool = mysql.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+});
 app.use(                                                         //middleware form
 express.urlencoded({
 extended: true,
 }),
 )
 app.use(express.json())                                         //middleware json
-let users = [];                                                 //array
-app.post("/users", (req, res)=>{                                //post
-const user={"name": String(req.body.name) ,"job":String(req.body.job),"id": Number(users.length+1)}
-users.push(user);
-if(user.name.length >= 10 || user.job.length >=20){
-users.pop();
-return res.status(422).json({"error": "too many caracters"})
-}
-else{
-return res.status(201).json({"message":"user created"})    
-}
-})
-app.get("/users" , (req,res)=>{                                     //get all
-if(users.length <=0){
-return res.status(422).json({"error":"array empty"});
-}
-else{
-    return res.status(200).json(users);
-}
+                                                 
+app.post("/users", async (req, res)=>{                                //post
 
 })
-app.get("/users/:id", (req, res)=>{                                   //get 1
-const id = Number(req.params.id);
-const singleUser = users.find(user => id === user.id );
-const status= singleUser ? 200 : 404;
-return res.status(status).json(singleUser);
+app.get("/users" , async (req,res)=>{                                     //get all
+const [rows] = await pool.query(
+'SELECT * FROM User'
+);
 })
-app.put("/users/:id", (req, res)=>{                                //put
-const id= Number(req.params.id);
-const indexUser = users.findIndex(user => user.id === id);
-if(indexUser !== -1){
-users[indexUser].name = String(req.body.name);
-users[indexUser].job = String(req.body.job);
-return res.status(200).json({"message":"user edited!"}) ;
-}
-else{
-    return res.status(422).json({"error":"this user don't exist"});}
+app.get("/users/:id", async (req, res)=>{                                   //get 1
+
 })
-app.patch("/users/:id", (req, res)=>{                                //patch
-const id = Number(req.params.id);
-const indexUser =users.findIndex(user => user.id === id);
-const body = req.body;
-if(indexUser !== -1){
-users[indexUser] ={...users[indexUser], ...body, id}
-return res.status(200).json({"message":"user edited!"}) ;
-}
-else{
-return res.status(422).json({"error":"this user don't exist"})
-}
+app.put("/users/:id", async(req, res)=>{                                //put
+
 })
-app.delete("/users", (req, res)=>{                               //delete all
-if(users.length >0){
-users.length = 0;
-}
-res.status(200).json({"message":"all users are deleted!"});
+app.patch("/users/:id", async (req, res)=>{                                //patch
+
 })
-app.delete("/users/:id", (req, res)=>{                         //delete one
-const id = Number(req.params.id);
-const indexUser = users.findIndex(user => user.id === id);
-if(indexUser !== -1){
-users.splice(indexUser, 1);
-return res.status(200).json({"message": "deleted this user"});
-}
-else{
-    return res.status(422).json({"error": "this user don't exist"});
-}
+app.delete("/users", async (req, res)=>{                               //delete all
+
+})
+app.delete("/users/:id", async(req, res)=>{                         //delete one
+ 
 })
 app.listen(3000);

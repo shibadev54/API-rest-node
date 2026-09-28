@@ -1,0 +1,10 @@
+CREATE DATABASE Users;
+USE Users;
+CREATE TABLE User(
+id INT AUTO_INCREMENT PRIMARY KEY,
+name NOT NULL VARCHAR(40),
+job NOT NULL VARCHAR(40),
+age INT NOT NULL VARCHAR(40)
+);
+INSERT INTO User(name, job, age)
+VALUES ('Joe', 'programmer', 22)
