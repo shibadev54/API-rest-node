@@ -4,7 +4,7 @@
   "description": "- Node.js - Insomnia - Mysql  ## como iniciar: ``` git clone https://github.com/shibadev54/API-rest-node npm install ```",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "sql": "mysql -u root -p < database/db.sql",
     "iniciar": "nodemon src/server.js"
   },
   "repository": {
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/shibadev54/API-rest-node#readme",
   "dependencies": {
+    "dotenv": "^18.0.4",
     "express": "^5.2.1",
     "mysql2": "^3.24.4"
   },
